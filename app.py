@@ -1,4 +1,4 @@
-# File: app.py (Revisi Final & Stabil - Gabungan Kode Algoritma)
+# File: app.py (FINAL & STABIL - Virtual Lab Exponential Search)
 
 import streamlit as st
 import pandas as pd
@@ -78,7 +78,8 @@ def exponential_search(data_list, target):
     
     while i < n and arr[i] <= target:
         HISTORY.append({
-            'array': arr[:], 'target': target, 'i': i, 'status': 'Melompat Eksponensial',
+            'array': arr[:], 'target': target, 'i': i, 'low': i // 2, 'high': min(i, n - 1), 
+            'status': 'Melompat Eksponensial',
             'action': f'PHASE 1: Mengecek Indeks {i} (Nilai: {arr[i]}).'
         })
         i *= 2
@@ -150,22 +151,27 @@ st.write(f"**Nilai Target:** **{target_value}**")
 
 # --- Fungsi Plot Matplotlib (Menggunakan Kode Warna Internal) ---
 def plot_array(arr, state, found_index, max_val):
+    # Fix: Memastikan variabel yang digunakan dalam plotting ada dalam objek state
     fig, ax = plt.subplots(figsize=(12, 4))
     n = len(arr)
     x_pos = np.arange(n)
+    target = state['target']
     
     colors = ['#CC0000'] * n # Merah: Default / Dibuang
     status = state['status']
     
     if status in ('Melompat Eksponensial', 'Batasan Ditemukan'):
-        i = state['i']
+        i = state.get('i', 1) 
+        low = state.get('low', 0)
+        high = state.get('high', n-1)
+
         # Kuning (#F1C232): Area yang sudah diperiksa
         for k in range(min(i, n)):
             colors[k] = '#F1C232'
             
         # Hijau (#6AA84F): Indeks Lompatan (i)
-        if i < n: colors[i // 2] = '#6AA84F' 
-        if i < n: colors[min(i, n-1)] = '#6AA84F' # Tanda batas atas lompatan
+        if low < n: colors[low] = '#6AA84F' 
+        if high < n: colors[high] = '#6AA84F' 
 
     elif status.startswith('Binary'):
         low = state.get('low', -1)
