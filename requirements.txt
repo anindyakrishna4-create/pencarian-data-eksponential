@@ -2,4 +2,4 @@ streamlit
 matplotlib
 numpy
 pandas
-exponential_search
+
