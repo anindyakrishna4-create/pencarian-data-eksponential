@@ -1,9 +1,9 @@
-# File: app.py (Aplikasi Streamlit dengan Matplotlib)
+# File: app.py (Revisi Final Setelah Konfirmasi Baris 6)
 
 import streamlit as st
 import pandas as pd
 import time
-from exponential_search import exponential_search 
+from exponential_search import exponential_search # <--- Baris 6: Impor Sudah Benar
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -61,7 +61,7 @@ def plot_array(arr, state, found_index, max_val):
     n = len(arr)
     x_pos = np.arange(n)
     
-    # Default: Merah (Area yang tidak relevan/belum diperiksa)
+    # Default: Merah (#CC0000 - Area yang tidak relevan/belum diperiksa)
     colors = ['#CC0000'] * n 
     
     status = state['status']
@@ -70,7 +70,6 @@ def plot_array(arr, state, found_index, max_val):
     if status in ('Melompat Eksponensial', 'Batasan Ditemukan'):
         i = state['i']
         # Kuning: Area yang sudah diperiksa (dari 0 hingga i/2 - 1)
-        # Jika i=1, hanya index 0 yang dicek
         for k in range(min(i, n)):
             colors[k] = '#F1C232'
             
@@ -84,7 +83,7 @@ def plot_array(arr, state, found_index, max_val):
         high = state.get('high', -1)
         mid = state.get('mid', -1)
         
-        # Biru: Rentang Pencarian Aktif
+        # Biru: Rentang Pencarian Aktif (#4A86E8)
         if low != -1 and high != -1 and low <= high:
             for k in range(low, high + 1):
                  colors[k] = '#4A86E8'
